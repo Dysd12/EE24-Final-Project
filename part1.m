@@ -7,14 +7,14 @@ beta1_true = [0.0015, 0.0010, 0.0007, 0.0005];
 colors = {'b', 'm', 'g', 'r'}; 
 
 figure('Name', 'Model Simuation Plots');
-hold on; 
+hold on;
 
 % Plot at each time
 for i = 1:length(timestamps)
     b0 = beta0_true(i);
     b1 = beta1_true(i);
     z = b0 + b1 .* gold_range;
-    p_win = 1 ./ (1 + exp(-z)); 
+    p_win = 1 ./ (1 + exp(-z));
     
     plot(gold_range, p_win, 'LineWidth', 2.5, 'Color', colors{i},'DisplayName', sprintf('t = %d mins (beta_1 = %.4f)', timestamps(i), b1));
 end

@@ -11,7 +11,6 @@ max_rows = size(data_table, 1);
 row_indices = 12:12:max_rows;
 game_results = data_table{row_indices, col_win}; % The real wins and losses
 
-% Create the final figure
 figure;
 
 discovered_beta0 = zeros(1, 4);
@@ -22,7 +21,6 @@ for i = 1:length(timestamps)
     % Get the real gold differences for this specific timestamp
     real_gold = data_table{row_indices, col_times(i)};
     
-    % Clean the data: Remove any rows where gold or win result is NaN (missing data)
     valid_data = ~isnan(real_gold) & ~isnan(game_results);
     clean_gold = real_gold(valid_data);
     clean_wins = game_results(valid_data);
@@ -52,9 +50,8 @@ for i = 1:length(timestamps)
     % Draw the dots for the real data
     plot(bin_centers, exp_prob, 'ko', 'MarkerFaceColor', [0.7 0.7 0.7], 'MarkerSize', 6);
     
-    % 2. Plot the Theoretical Model
+    % Plot the Theoretical Model
     g_smooth = linspace(min(clean_gold), max(clean_gold), 200);
-    % Plug our newly discovered betas into the mathematical model
     p_smooth = 1 ./ (1 + exp(-(b0 + b1 .* g_smooth)));
     
     colors = {'b', 'm', 'g', 'r'};
@@ -67,7 +64,7 @@ for i = 1:length(timestamps)
     ylim([-0.05 1.05]);
     grid on;
     
-    % Add the model equation text directly onto the graph!
+    % Adding the model equation on the graph
     eq_text = sprintf('P(Win) = 1 / (1 + e^{-(%.3f + %.5f*g)})', b0, b1);
     text(min(clean_gold)*0.8, 0.8, eq_text, 'FontSize', 9, 'BackgroundColor', 'w');
     
